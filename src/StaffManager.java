@@ -103,7 +103,7 @@ public class StaffManager {
      * @param type the type of staff
      *             For example: "Lecturer" or "Researcher"
      * @return the number of staff of a certain type
-     * @exception IllegalArgumentException if the type is not "Lecturer" or "Researcher"
+     * @throws IllegalArgumentException if the type is not "Lecturer" or "Researcher"
      */
     public int noOfStaff(String type) {
         int sum = 0;
@@ -115,7 +115,20 @@ public class StaffManager {
     }
 
 
-
+    /**
+     * addData method adds data to a staff.
+     * If the staff is a lecturer, it adds modules to the lecturer.
+     * If the staff is a researcher, it adds students to the researcher.
+     *
+     * @param id       the id of the staff
+     *                 If the staff is not in the staff map, it returns false.
+     * @param modules  the modules to be added to the lecturer
+     *                 If the module is not in the module set, it returns false.
+     * @param students the students to be added to the researcher
+     *                 If the student is not in the student set, it returns false.
+     * @return true if the data is added successfully, false otherwise
+     * @throws IllegalArgumentException if the staff is not a lecturer or a researcher
+     */
     public boolean addData(StaffID id, Set<Module> modules, Set<Name> students) {
         Staff staff = staffMap.get(id.getID());
         if (staff == null)
@@ -123,17 +136,17 @@ public class StaffManager {
         if (staff.getStaffType().equals(Constants.Lecturer)) {
             Lecturer lecturer = (Lecturer) staff;
             //check if the module is in the module set
-            if (modules == null)
+            if (modules == null || !moduleSet.containsAll(modules))
                 return false;
             for (Module module : modules) {
-                if (moduleSet.contains(module))
-                    lecturer.addModule(module);
+                lecturer.addModule(module);
             }
         } else {
             Researcher researcher = (Researcher) staff;
             //check if the student is in the student set
-            if (students == null)
-                return false;
+            if (students == null || !studentSet.containsAll(students))
+                 return false;
+
             for (Name student : students) {
                 if (studentSet.contains(student))
                     researcher.addStudent(student);
@@ -183,7 +196,6 @@ public class StaffManager {
      * If the staff is a researcher, all the students that the researcher supervises will be removed.
      *
      * @param id the id of the staff
-     *
      */
     public void terminateStaff(StaffID id) {
         //get staff
