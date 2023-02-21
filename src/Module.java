@@ -1,5 +1,12 @@
 import java.util.Objects;
 
+/**
+ * a module consists of a name , a module code ,a semester and the number of credits
+ * associated with the module
+ *
+ * @author nil
+ * @version 1.0
+ */
 public class Module {
     private String name;
     private String code;
@@ -38,13 +45,19 @@ public class Module {
     }
 
     private int credit;
-    public Module(String code,String name,int semester,int credit){
+
+    public Module(String code, String name, int semester, int credit) {
         this.code = code;
         this.name = name;
         this.semester = semester;
         this.credit = credit;
     }
 
+    /**
+     * @return a string representation of the module
+     * @version 1.0
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return "Module:" +
