@@ -65,8 +65,8 @@ public class StaffManager {
     public Set<Module> readInModules(String path) throws IOException {
         BufferedReader file = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(path))));
         String line;
-        if ((line = file.readLine()) != null) {
-            String[] lines = line.split(",");
+        while ((line = file.readLine()) != null) {
+            String[] lines = line.split(", ");
             if (lines.length == 4) {
                 moduleSet.add(new Module(lines[0], lines[1], Integer.parseInt(lines[2]), Integer.parseInt(lines[3])));
             }
@@ -87,7 +87,7 @@ public class StaffManager {
     public Set<Name> readInStudents(String path) throws IOException {
         BufferedReader file = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(path))));
         String line;
-        if ((line = file.readLine()) != null) {
+        while ((line = file.readLine()) != null) {
             String[] lines = line.split(" ");
             if (lines.length == 2) {
                 studentSet.add(new Name(lines[0], lines[1]));
