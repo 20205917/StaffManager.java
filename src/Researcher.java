@@ -65,7 +65,7 @@ public class Researcher extends UniversityStaff {
      */
     public void listStudents() {
         for (Name name : students) {
-            System.out.println(name);
+            System.out.println(name.getFirstName()+" "+name.getLastName());
         }
     }
 }
