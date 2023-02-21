@@ -123,7 +123,7 @@ public class StaffManager {
         if (staff.getStaffType().equals(Constants.Lecturer)) {
             Lecturer lecturer = (Lecturer) staff;
             //check if the module is in the module set
-            if (modules == null)
+            if (!moduleSet.containsAll(modules))
                 return false;
             for (Module module : modules) {
                 if (moduleSet.contains(module))
@@ -132,7 +132,7 @@ public class StaffManager {
         } else {
             Researcher researcher = (Researcher) staff;
             //check if the student is in the student set
-            if (students == null)
+            if (!studentSet.containsAll(students))
                 return false;
             for (Name student : students) {
                 if (studentSet.contains(student))
