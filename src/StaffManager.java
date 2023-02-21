@@ -4,9 +4,13 @@ import java.nio.file.Paths;
 import java.util.*;
 
 /**
- *  StaffManager class is a singleton class that manages all staff in the university.
- *  It is responsible to create a new staff, terminate a staff, and add data to a staff.
+ * StaffManager class is a singleton class that manages all staff in the university.
+ * It is responsible to create a new staff, terminate a staff, and add data to a staff.
+ * It also provides a method to get all staff in the university,and a method to get the number of staff of a certain type.
+ * It is the central class in the system.
  *
+ * @author nil
+ * @version 1.0
  */
 public class StaffManager {
 
@@ -19,7 +23,11 @@ public class StaffManager {
         this.studentSet = new HashSet<>();
     }
 
-    //singleton
+    /**
+     * Singleton pattern
+     *
+     * @return the only instance of StaffManager
+     */
     public static StaffManager getInstance() {
         if (instance == null) {
             instance = new StaffManager();
@@ -27,13 +35,11 @@ public class StaffManager {
         return instance;
     }
 
+
     private final HashMap<String, Staff> staffMap;
 
     private final Set<String> smartCardNumbers;
 
-    public Set<Module> getModuleSet() {
-        return moduleSet;
-    }
 
     private final Set<Module> moduleSet;
 
@@ -41,9 +47,21 @@ public class StaffManager {
         return studentSet;
     }
 
-    private Set<Name> studentSet = new HashSet<>();
+    private final Set<Name> studentSet;
 
+    public Set<Module> getModuleSet() {
+        return moduleSet;
+    }
 
+    /**
+     * Read in modules from a file, and store them in a set.
+     * The file should be in the format of "moduleCode,moduleName,semester,credits"
+     *
+     * @param path the path of the file
+     *             and file should be in the format of "moduleCode,moduleName,semester,credits"
+     *             For example: "CS101,Programming,1,10"
+     * @return a set of modules
+     */
     public Set<Module> readInModules(String path) throws IOException {
         BufferedReader file = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(path))));
         String line;
@@ -56,6 +74,15 @@ public class StaffManager {
         return moduleSet;
     }
 
+    /**
+     * Read in students from a file, and store them in a set.
+     * The file should be in the format of "firstName lastName"
+     *
+     * @param path the path of the file
+     *             and file should be in the format of "firstName lastName"
+     *             For example: "James Thomas"
+     * @return a set of students
+     */
     //example: James Thomas
     public Set<Name> readInStudents(String path) throws IOException {
         BufferedReader file = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(path))));
@@ -70,6 +97,14 @@ public class StaffManager {
     }
 
 
+    /**
+     * noOfStaff method returns the number of staff of a certain type.
+     *
+     * @param type the type of staff
+     *             For example: "Lecturer" or "Researcher"
+     * @return the number of staff of a certain type
+     * @exception IllegalArgumentException if the type is not "Lecturer" or "Researcher"
+     */
     public int noOfStaff(String type) {
         int sum = 0;
         for (Staff staff : staffMap.values()) {
@@ -81,7 +116,7 @@ public class StaffManager {
 
     public boolean addData(StaffID id, Set<Module> modules, Set<Name> students) {
         Staff staff = staffMap.get(id.getID());
-        if (staff == null||modules==null||students==null)
+        if (staff == null || modules == null || students == null)
             return false;
         if (staff.getStaffType().equals(Constants.Lecturer)) {
             Lecturer lecturer = (Lecturer) staff;
@@ -148,7 +183,16 @@ public class StaffManager {
         smartCardNumbers.remove(smartCardNumber.toString());
     }
 
-
+    /**
+     * Create a smart card number for a staff.
+     * The smart card number is a 6-digit number, which is unique in the university.
+     * The first 2 digits are the first letter of the first name and the first letter of the last name.
+     * The next 3 digits are randomly generated.
+     * The last digit is the current year.
+     *
+     * @param name the name of the staff
+     * @return the smart card number
+     */
     private SmartCardNumber createSmartCardNumber(Name name) {
         //get now year
         int year = Calendar.getInstance().get(Calendar.YEAR);
