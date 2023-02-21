@@ -103,7 +103,7 @@ public class StaffManager {
      * @param type the type of staff
      *             For example: "Lecturer" or "Researcher"
      * @return the number of staff of a certain type
-     * @exception IllegalArgumentException if the type is not "Lecturer" or "Researcher"
+     * @throws IllegalArgumentException if the type is not "Lecturer" or "Researcher"
      */
     public int noOfStaff(String type) {
         int sum = 0;
@@ -115,7 +115,20 @@ public class StaffManager {
     }
 
 
-
+    /**
+     * addData method adds data to a staff.
+     * If the staff is a lecturer, it adds modules to the lecturer.
+     * If the staff is a researcher, it adds students to the researcher.
+     *
+     * @param id       the id of the staff
+     *                 If the staff is not in the staff map, it returns false.
+     * @param modules  the modules to be added to the lecturer
+     *                 If the module is not in the module set, it returns false.
+     * @param students the students to be added to the researcher
+     *                 If the student is not in the student set, it returns false.
+     * @return true if the data is added successfully, false otherwise
+     * @throws IllegalArgumentException if the staff is not a lecturer or a researcher
+     */
     public boolean addData(StaffID id, Set<Module> modules, Set<Name> students) {
         Staff staff = staffMap.get(id.getID());
         if (staff == null)
@@ -126,12 +139,10 @@ public class StaffManager {
             if (!moduleSet.containsAll(modules))
                 return false;
             for (Module module : modules) {
-                if (moduleSet.contains(module))
-                    lecturer.addModule(module);
+                lecturer.addModule(module);
             }
         } else {
             Researcher researcher = (Researcher) staff;
-            //check if the student is in the student set
             if (!studentSet.containsAll(students))
                 return false;
             for (Name student : students) {
@@ -142,7 +153,19 @@ public class StaffManager {
         return true;
     }
 
-
+    /**
+     * employStaff method employs a staff.
+     * It creates a smart card number, a smart card, and a staff id.
+     * It also adds the staff to the staff map.
+     * If the staff is a lecturer, it creates a lecturer else it creates a researcher.
+     *
+     * @param firstName        the first name of the staff
+     * @param lastName         the last name of the staff
+     * @param dob              the date of birth of the staff
+     * @param staffType        the type of the staff, "Lecturer" or "Researcher"
+     * @param employmentStatus the employment status of the staff, "Permanent" or "Temporary"
+     * @return the staff if the staff is employed successfully, null otherwise
+     */
     public Staff employStaff(String firstName, String lastName, Date dob, String staffType, String employmentStatus) {
         Staff newStaff;
         if (!staffType.equals(Constants.Lecturer) && !staffType.equals(Constants.Researcher))
@@ -172,7 +195,11 @@ public class StaffManager {
         return newStaff;
     }
 
-
+    /**
+     * getAllStaff method returns all the staff.
+     *
+     * @return all the staff
+     */
     public Collection<Staff> getAllStaff() {
         return staffMap.values();
     }
@@ -183,7 +210,6 @@ public class StaffManager {
      * If the staff is a researcher, all the students that the researcher supervises will be removed.
      *
      * @param id the id of the staff
-     *
      */
     public void terminateStaff(StaffID id) {
         //get staff
@@ -222,6 +248,17 @@ public class StaffManager {
         }
     }
 
+    /**
+     * Issue a smart card for a staff.
+     * A staff must be at least 22 years old and at most 67 (retirement age is 68).
+     * A staff must not be a replicate staff.
+     *
+     * @param name             the name of the staff
+     * @param dob              the date of birth of the staff
+     * @param employmentStatus the employment status of the staff, "Permanent" or "Temporary"
+     * @param smartCardNumber  the smart card number of the staff
+     * @return the smart card if the smart card is issued successfully, null otherwise
+     */
     private SmartCard IssuedSmartCard(Name name, Date dob, String employmentStatus, SmartCardNumber smartCardNumber) {
         //check for dob ,A staff must be at least 22 years old and at most 67 (retirement age is 68)
         Calendar calendar = Calendar.getInstance();
