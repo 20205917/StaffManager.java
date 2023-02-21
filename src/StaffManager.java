@@ -109,7 +109,7 @@ public class StaffManager {
         if (smartCard == null)
             return null;
 
-        StaffID staffID = getStaffID();
+        StaffID staffID = StaffID.generateStaffID(this.staffMap);
         if (staffID == null)
             return null;
 
@@ -143,23 +143,6 @@ public class StaffManager {
     }
 
 
-    private StaffID getStaffID() {
-        char letter = 'a';
-        int num = 0;
-        for (char i = 'a'; i <= 'z'; i++) {
-            for (int j = 100; j < 999; j++) {
-                if (!staffMap.containsKey(i + String.valueOf(j))) {
-                    letter = i;
-                    num = j;
-                    break;
-                }
-            }
-        }
-        if (letter == 'a' && num == 0)
-            return null;
-        return new StaffID(letter, String.valueOf(num));
-    }
-
     private SmartCardNumber createSmartCardNumber(Name name) {
         //get now year
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -191,7 +174,7 @@ public class StaffManager {
                 return null;
         }
         //build  SmartCard
-        return new SmartCard(name, dob, employmentStatus, smartCardNumber);
+        return SmartCard.IssueSmartCard(name, dob, employmentStatus, smartCardNumber);
     }
 
 }

@@ -25,4 +25,21 @@ public class StaffID {
         ID = a + i;
     }
 
+    static public StaffID generateStaffID( HashMap<String, Staff> staffMap){
+        char letter = 'a';
+        int num = 0;
+        for (char i = 'a'; i <= 'z'; i++) {
+            for (int j = 100; j < 999; j++) {
+                if (!staffMap.containsKey(i + String.valueOf(j))) {
+                    letter = i;
+                    num = j;
+                    break;
+                }
+            }
+        }
+        if (letter == 'a' && num == 0)
+            return null;
+        return new StaffID(letter, String.valueOf(num));
+    }
+
 }

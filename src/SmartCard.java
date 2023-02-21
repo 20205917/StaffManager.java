@@ -53,4 +53,10 @@ public class SmartCard {
     public Date getExpiryDate() {
         return expiryDate;
     }
+
+    public static SmartCard IssueSmartCard(Name name, Date staffBirth, String employmentStatus, SmartCardNumber smartCardNumber) {
+        SmartCard smartCard = new SmartCard(name, staffBirth, employmentStatus, smartCardNumber);
+        smartCard.setExpiryDate();
+        return smartCard;
+    }
 }

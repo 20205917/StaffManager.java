@@ -1,12 +1,12 @@
 public class UniversityStaff implements Staff {
     private StaffID staffID;
     private SmartCard smartCard;
+    private String staffType;
 
     public void setStaffType(String staffType) {
         this.staffType = staffType;
     }
 
-    private String staffType;
 
     public void setStaffID(StaffID staffID) {
         this.staffID = staffID;
