@@ -3,7 +3,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
 
-
+/**
+ *  StaffManager class is a singleton class that manages all staff in the university.
+ *  It is responsible to create a new staff, terminate a staff, and add data to a staff.
+ *
+ */
 public class StaffManager {
 
     private static StaffManager instance;
@@ -23,19 +27,15 @@ public class StaffManager {
         return instance;
     }
 
-    //store all the staff ,key staffID ,value staff
-    private HashMap<String, Staff> staffMap = new HashMap<>();
+    private final HashMap<String, Staff> staffMap;
 
-    //store all the staff information, for check duplicate staff
-
-    //store all the smart card numbers
-    private Set<String> smartCardNumbers = new HashSet<>();
+    private final Set<String> smartCardNumbers;
 
     public Set<Module> getModuleSet() {
         return moduleSet;
     }
 
-    private Set<Module> moduleSet = new HashSet<>();
+    private final Set<Module> moduleSet;
 
     public Set<Name> getStudentSet() {
         return studentSet;
@@ -44,7 +44,6 @@ public class StaffManager {
     private Set<Name> studentSet = new HashSet<>();
 
 
-    //example: CSC8014, Software Development Advanced Techniques, 2, 10
     public Set<Module> readInModules(String path) throws IOException {
         BufferedReader file = new BufferedReader(new InputStreamReader(Files.newInputStream(Paths.get(path))));
         String line;
@@ -82,7 +81,7 @@ public class StaffManager {
 
     public boolean addData(StaffID id, Set<Module> modules, Set<Name> students) {
         Staff staff = staffMap.get(id.getID());
-        if (staff == null)
+        if (staff == null||modules==null||students==null)
             return false;
         if (staff.getStaffType().equals(Constants.Lecturer)) {
             Lecturer lecturer = (Lecturer) staff;
