@@ -114,13 +114,17 @@ public class StaffManager {
         return sum;
     }
 
+
+
     public boolean addData(StaffID id, Set<Module> modules, Set<Name> students) {
         Staff staff = staffMap.get(id.getID());
-        if (staff == null || modules == null || students == null)
+        if (staff == null)
             return false;
         if (staff.getStaffType().equals(Constants.Lecturer)) {
             Lecturer lecturer = (Lecturer) staff;
             //check if the module is in the module set
+            if (modules == null)
+                return false;
             for (Module module : modules) {
                 if (moduleSet.contains(module))
                     lecturer.addModule(module);
@@ -128,6 +132,8 @@ public class StaffManager {
         } else {
             Researcher researcher = (Researcher) staff;
             //check if the student is in the student set
+            if (students == null)
+                return false;
             for (Name student : students) {
                 if (studentSet.contains(student))
                     researcher.addStudent(student);
@@ -171,7 +177,14 @@ public class StaffManager {
         return staffMap.values();
     }
 
-
+    /**
+     * terminateStaff method terminates a staff.
+     * If the staff is a lecturer, all the modules that the lecturer teaches will be removed.
+     * If the staff is a researcher, all the students that the researcher supervises will be removed.
+     *
+     * @param id the id of the staff
+     *
+     */
     public void terminateStaff(StaffID id) {
         //get staff
         Staff staff = staffMap.get(id.getID());
