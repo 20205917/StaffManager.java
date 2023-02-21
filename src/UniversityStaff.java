@@ -1,20 +1,16 @@
+/**
+ * UniversityStaff implements the Staff interface
+ * contains the staffID, smartCard and staffType
+ * is the super class of Lecturer and Researcher
+ *
+ * @author nil
+ * @version 1.0
+ */
+
 public class UniversityStaff implements Staff {
-    private StaffID staffID;
-    private SmartCard smartCard;
-    private String staffType;
-
-    public void setStaffType(String staffType) {
-        this.staffType = staffType;
-    }
-
-
-    public void setStaffID(StaffID staffID) {
-        this.staffID = staffID;
-    }
-
-    public void setSmartCard(SmartCard smartCard) {
-        this.smartCard = smartCard;
-    }
+    private final StaffID staffID;
+    private final SmartCard smartCard;
+    private final String staffType;
 
     UniversityStaff(StaffID staffID, SmartCard smartCard, String staffType) {
         this.staffID = staffID;
