@@ -31,8 +31,15 @@ public class StaffManager {
     //store all the smart card numbers
     private Set<String> smartCardNumbers = new HashSet<>();
 
+    public Set<Module> getModuleSet() {
+        return moduleSet;
+    }
 
     private Set<Module> moduleSet = new HashSet<>();
+
+    public Set<Name> getStudentSet() {
+        return studentSet;
+    }
 
     private Set<Name> studentSet = new HashSet<>();
 

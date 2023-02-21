@@ -1,5 +1,4 @@
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Lecturer class extends UniversityStaff class
@@ -43,6 +42,8 @@ public class Lecturer extends UniversityStaff {
         if (module == null) {
             return;
         }
+        if(!moduleSet.contains(module))
+            return;
         credits -= module.getCredit();
         moduleSet.remove(module);
     }
